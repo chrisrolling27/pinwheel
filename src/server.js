@@ -1,11 +1,12 @@
 const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
+
 
 const pinwheel = axios.create({
   baseURL: "https://api.pinwheelapi.com/",
