@@ -14,6 +14,7 @@ function Pinwheel() {
       },
       body: JSON.stringify({
         institution: "BankingON",
+        client_user_id: 1,
         products: ["direct_deposit_switch"],
       }),
     });
