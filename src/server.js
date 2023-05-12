@@ -1,38 +1,33 @@
-const express = require("express");
-const axios = require("axios");
-require("dotenv").config();
-const PORT = process.env.PORT || 3001;
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const sdk = require('@pinwheelapi/v2023-04-18#3v1kr14lhf8a9nx');
 
 const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
 app.use(express.json());
 
+sdk.auth(process.env.PINWHEEL_API_SECRET);
 
-const pinwheel = axios.create({
-  baseURL: "https://api.pinwheelapi.com/",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${process.env.PINWHEEL_API_SECRET}`,
-  },
-});
-
-app.post("/pinwheel/link_tokens", (req, res) => {
-  try {
-    const response = await pinwheel.post('link_tokens', {
-      user: {
-        client_user_id: req.body.client_user_id,
-      },
-      institution: req.body.institution,
-      products: req.body.products,
+app.post('/pinwheel/link_tokens', (req, res) => {
+  sdk.post_v1_link_tokens___post({
+    user: {
+      client_user_id: req.body.client_user_id,
+    },
+    institution: req.body.institution,
+    products: req.body.products,
+    allocation: {type: 'amount'},
+    disable_direct_deposit_splitting: false,
+    language: 'en',
+    skip_intro_screen: false
+  }, {'pinwheel-version': '2023-04-18'})
+    .then(({ data }) => res.json(data))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to create link token' });
     });
-    res.json(response.data);
-  }
-  catch (error) {
-    res.status(500).json({ error: 'Failed to create link token!' });
-  }
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
 });
 
 app.listen(PORT, () => {
