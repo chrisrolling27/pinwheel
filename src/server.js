@@ -15,21 +15,21 @@ const pinwheel = axios.create({
   },
 });
 
-app.post("/pinwheel/link_tokens", (req, res) => {
-  try {
-    const response = await pinwheel.post('link_tokens', {
-      user: {
-        client_user_id: req.body.client_user_id,
-      },
-      institution: req.body.institution,
-      products: req.body.products,
-    });
-    res.json(response.data);
-  }
-  catch (error) {
-    res.status(500).json({ error: 'Failed to create link token!' });
-  }
-});
+// app.post("/pinwheel/link_tokens", (req, res) => {
+//   try {
+//     const response = await pinwheel.post('link_tokens', {
+//       user: {
+//         client_user_id: req.body.client_user_id,
+//       },
+//       institution: req.body.institution,
+//       products: req.body.products,
+//     });
+//     res.json(response.data);
+//   }
+//   catch (error) {
+//     res.status(500).json({ error: 'Failed to create link token!' });
+//   }
+// });
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
