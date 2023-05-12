@@ -28,7 +28,7 @@ app.post('/pinwheel/link_tokens', (req, res) => {
       console.error(err);
       res.status(500).json({ error: 'Failed to create link token' });
     });
-});
+});//
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
